@@ -1,0 +1,57 @@
+/* 🔁 Override default styles for full screen */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 🔁 Remove constraints on #root */
+#root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.overlay button {
+  padding: 1em 2em;
+  font-size: 1.2rem;
+  margin-top: 1em;
+  background: #00c853;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.overlay button:hover {
+  background: #00b342;
+}
+
+
+/* ✅ Make canvas container full screen */
+.canvas-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: black; /* optional for better visibility */
+}
