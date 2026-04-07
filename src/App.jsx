@@ -89,6 +89,8 @@ function App() {
       {(gameState === 'playing' || gameState === 'countdown') && (
         <>
           <Canvas
+            dpr={[1, 1.5]}
+            gl={{ powerPreference: "high-performance", antialias: false }}
             shadows
             onClick={() => {
               const canvas = document.querySelector('canvas')
@@ -100,8 +102,8 @@ function App() {
             <React.Suspense fallback={null}>
               <ambientLight intensity={0.2} />
               <Moonlight />
-              <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade />
-              <Cloud position={[0, 15, -10]} speed={0.2} opacity={0.3} scale={50} />
+              <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade />
+              {/* <Cloud position={[0, 15, -10]} speed={0.2} opacity={0.3} scale={50} /> - Disabled to prevent WebGL Context Loss on weaker GPUs */}
               <GLBGround />
               <Player playerRef={playerRef} cameraMode={cameraMode} />
               <Enemy playerRef={playerRef} setGameState={setGameState} />
