@@ -7,9 +7,9 @@ import DustParticles from './Effects/DustParticles'
 
 export default function Player({ playerRef }) {
   const localRef = useRef()
+  const dustRef = useRef()
   const keysPressed = useRef({})
   const speed = 0.1
-  const [isRunning, setIsRunning] = useState(false)
 
   const { scene, animations } = useGLTF('/c.glb')
   const { actions, mixer } = useAnimations(animations, localRef)
@@ -52,7 +52,9 @@ export default function Player({ playerRef }) {
 
     const isMoving = direction.length() > 0
 
-    setIsRunning(isMoving)
+    if (dustRef.current) {
+      dustRef.current.visible = isMoving
+    }
 
     if (isMoving) {
       direction.normalize().multiplyScalar(speed)
@@ -80,9 +82,7 @@ export default function Player({ playerRef }) {
         position={[0, 0, 0]}
         scale={0.1}
       />
-      {isRunning && localRef.current && (
-        <DustParticles position={localRef.current.position} />
-      )}
+      <DustParticles dustRef={dustRef} playerRef={localRef} />
     </>
   )
 }
