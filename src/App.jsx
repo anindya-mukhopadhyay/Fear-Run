@@ -85,12 +85,11 @@ function App() {
         </div>
       )}
 
-      {/* Canvas + Compass for active gameplay */}
-      {(gameState === 'playing' || gameState === 'countdown') && (
-        <>
+      {/* Canvas + Compass for active gameplay - ALWAYS mounted but hidden to prevent Context Lost from rapid unmount/remount */}
+      <div style={{ display: (gameState === 'playing' || gameState === 'countdown') ? 'block' : 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
           <Canvas
-            dpr={[1, 1.5]}
-            gl={{ powerPreference: "high-performance", antialias: false }}
+            dpr={1} // STRICTLY set to 1 to prevent SwiftShader/Vercel crashes
+            gl={{ powerPreference: "high-performance", antialias: false, preserveDrawingBuffer: false }}
             shadows
             onClick={() => {
               const canvas = document.querySelector('canvas')
@@ -102,19 +101,18 @@ function App() {
             <React.Suspense fallback={null}>
               <ambientLight intensity={0.2} />
               <Moonlight />
-              <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade />
-              {/* <Cloud position={[0, 15, -10]} speed={0.2} opacity={0.3} scale={50} /> - Disabled to prevent WebGL Context Loss on weaker GPUs */}
+              <Stars radius={100} depth={50} count={1000} factor={4} saturation={0} fade />
+              
               <GLBGround />
               <Player playerRef={playerRef} cameraMode={cameraMode} />
-              <Enemy playerRef={playerRef} setGameState={setGameState} />
+              {/* <Enemy playerRef={playerRef} setGameState={setGameState} /> TEMPORARILY DISABLED to fix VRAM crashing */}
               <CameraManager playerRef={playerRef} cameraMode={cameraMode} />
             </React.Suspense>
           </Canvas>
 
           {/* Compass Overlay */}
           <Compass playerRef={playerRef} />
-        </>
-      )}
+      </div>
 
       {/* Background Music */}
       <audio ref={bgMusicRef} src="/bg-music.mp3" loop />
